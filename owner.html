@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Owner Panel - VighnaHara Ruchulu</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --color-primary: #fc8019;
+      --color-primary-dark: #e67300;
+      --color-secondary: #ffb84d;
+      --color-dark: #1c1c1c;
+      --color-gray: #686b78;
+      --color-light-gray: #93959f;
+      --color-border: #d4d5d9;
+      --color-border-light: #e9e9eb;
+      --color-bg: #f5f5f7;
+      --shadow-card: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-nav: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      background:var(--color-bg);
+      color:var(--color-dark);
+      line-height:1.5;
+      overflow-x:hidden;
+      padding-bottom:60px;
+    }
+
+    /* Top nav */
+    .navbar{
+      position:sticky;
+      top:0;
+      background:#fff;
+      box-shadow:var(--shadow-nav);
+      z-index:1000;
+    }
+    .nav-container{
+      max-width:1000px;
+      margin:0 auto;
+      padding:0 16px;
+      height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+      color:var(--color-dark);
+      cursor:default;
+    }
+    .brand-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent; /* no solid color behind logo */
+}
+
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+    .brand-info h1{
+      font-size:15px;
+      font-weight:600;
+    }
+    .brand-info p{
+      font-size:10px;
+      color:var(--color-gray);
+    }
+
+    .owner-right{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .owner-chip{
+      padding:6px 10px;
+      background:#f5f5f7;
+      border-radius:999px;
+      font-size:11px;
+      max-width:200px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .btn-small{
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid var(--color-border);
+      background:#fff;
+      font-size:11px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    /* Page layout */
+    .page{
+      max-width:1000px;
+      margin:0 auto;
+      padding:14px 16px 16px;
+    }
+    .page-header{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      margin-bottom:12px;
+    }
+    .page-title{
+      font-size:20px;
+      font-weight:700;
+    }
+    .page-subtitle{
+      font-size:12px;
+      color:var(--color-gray);
+    }
+
+    .filters{
+      display:flex;
+      gap:8px;
+      margin-bottom:10px;
+      flex-wrap:wrap;
+    }
+    .filter-pill{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--color-border-light);
+      background:#fff;
+      font-size:11px;
+      cursor:pointer;
+    }
+    .filter-pill.active{
+      background:var(--color-primary);
+      color:#fff;
+      border-color:var(--color-primary);
+    }
+
+    .orders-list{
+      display:grid;
+      gap:12px;
+    }
+    .order-card{
+      background:#fff;
+      border-radius:14px;
+      border:1px solid var(--color-border-light);
+      box-shadow:var(--shadow-card);
+      padding:10px 12px 12px;
+    }
+    .order-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      margin-bottom:6px;
+      gap:6px;
+    }
+    .order-id{
+      font-size:11px;
+      color:var(--color-light-gray);
+      word-break:break-all;
+    }
+    .order-time{
+      font-size:11px;
+      color:var(--color-gray);
+    }
+    .status-badge{
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:600;
+    }
+    .status-pending{background:#fff7e6;color:#d48806;}
+    .status-accepted{background:#e6fffb;color:#08979c;}
+    .status-rejected{background:#fff1f0;color:#cf1322;}
+    .status-delivered{background:#f6ffed;color:#389e0d;}
+
+    .order-section-title{
+      font-size:12px;
+      font-weight:600;
+      margin-top:4px;
+      margin-bottom:2px;
+    }
+    .order-customer{
+      font-size:12px;
+      color:var(--color-dark);
+    }
+    .order-contact{
+      font-size:11px;
+      color:var(--color-gray);
+      margin-bottom:2px;
+    }
+    .order-address{
+      font-size:11px;
+      color:var(--color-gray);
+      margin-bottom:4px;
+    }
+
+    .order-items{
+      font-size:12px;
+      margin-bottom:4px;
+    }
+    .order-items ul{
+      margin-left:16px;
+    }
+
+    .order-footer{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-top:6px;
+    }
+    .order-total{
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .status-controls{
+      display:flex;
+      gap:6px;
+      align-items:center;
+    }
+    .status-select{
+      padding:6px 8px;
+      border-radius:8px;
+      border:1px solid var(--color-border);
+      font-size:11px;
+    }
+    .btn-save{
+      padding:6px 10px;
+      border-radius:999px;
+      border:none;
+      background:var(--color-primary);
+      color:#fff;
+      font-size:11px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn-save:disabled{
+      opacity:0.6;
+      cursor:not-allowed;
+    }
+
+    .empty-state{
+      text-align:center;
+      padding:40px 10px;
+      color:#999;
+      font-size:13px;
+    }
+    .empty-icon{
+      font-size:34px;
+      margin-bottom:6px;
+      opacity:0.5;
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      bottom:80px;
+      left:50%;
+      transform:translateX(-50%) translateY(120px);
+      background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));
+      color:#fff;
+      padding:8px 16px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:600;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+      opacity:0;
+      transition:all .35s cubic-bezier(.34,1.56,.64,1);
+      display:flex;
+      align-items:center;
+      gap:6px;
+      z-index:1300;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+    .toast::before{
+      content:'✓';
+      font-size:14px;
+    }
+
+    /* Bottom nav for mobile (no link to index) */
+    .bottom-nav{
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      height:56px;
+      background:#fff;
+      border-top:1px solid var(--color-border-light);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:1200;
+    }
+    .bottom-nav span{
+      font-size:11px;
+      color:var(--color-gray);
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+    .bottom-nav span.icon{font-size:18px;}
+
+    @media(min-width:900px){
+      body{padding-bottom:0;}
+      .bottom-nav{display:none;}
+      .page-header{
+        flex-direction:row;
+        justify-content:space-between;
+        align-items:flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Nav (no link to index.html in UI) -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+       <div class="brand-logo">
+  <img src="logo.png" alt="VighnaHara Ruchulu Logo" />
+</div>
+
+        <div class="brand-info">
+          <h1>VighnaHara Ruchulu</h1>
+          <p>Owner Panel</p>
+        </div>
+      </div>
+      <div class="owner-right">
+        <div class="owner-chip" id="ownerChip">Checking access...</div>
+        <button class="btn-small" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page -->
+  <main class="page">
+    <header class="page-header">
+      <div>
+        <h2 class="page-title">All Orders</h2>
+        <p class="page-subtitle" id="orderCountText">Total orders: 0</p>
+      </div>
+      <div class="filters">
+        <button class="filter-pill active" data-status="all" onclick="setFilter(this)">All</button>
+        <button class="filter-pill" data-status="Pending" onclick="setFilter(this)">Pending</button>
+        <button class="filter-pill" data-status="Accepted" onclick="setFilter(this)">Accepted</button>
+        <button class="filter-pill" data-status="Delivered" onclick="setFilter(this)">Delivered</button>
+        <button class="filter-pill" data-status="Rejected" onclick="setFilter(this)">Rejected</button>
+      </div>
+    </header>
+
+    <section id="ordersList" class="orders-list">
+      <!-- Orders will be rendered here -->
+    </section>
+  </main>
+
+  <!-- Bottom nav (just label, no navigation) -->
+  <div class="bottom-nav">
+    <span>
+      <span class="icon">🧾</span>
+      Owner Orders Panel
+    </span>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">Saved</div>
+
+  <script type="module" src="owner.js"></script>
+
+</body>
+</html>
